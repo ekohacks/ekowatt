@@ -27,7 +27,7 @@ describe('latestReadings', () => {
     expect(latestReadings([late, early2, early1])).toEqual([early1, early2, late]);
   });
 
-  describe('the law (decision 12)', () => {
+  describe('latestReadings() invariants', () => {
     // Two meters, two half hours, revisions 1 to 5, one reading per revision per slot, so
     // "the highest revision" is always well defined.
     const reading = fc.record({
@@ -52,7 +52,7 @@ describe('latestReadings', () => {
     // On its own this law would pass for a function that always returns []. The examples above
     // are what rule that out, which is why they stay.
     test.prop([arrivals])(
-      'arrival order and duplicates do not change the result',
+      'gives the same readings whatever order they arrive in and however often one repeats',
       ([rs, shuffled, again]) => {
         expect(latestReadings([...shuffled, ...again])).toEqual(latestReadings(rs));
       },
