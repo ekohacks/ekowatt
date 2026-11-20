@@ -1,10 +1,14 @@
 # EkoWatt
 
-A practice kata: a small, in memory slice of an energy retail platform, from meter to cash.
+A teaching kata from EkoHacks: prepaid electricity for African markets, from meter reading to money, built test first one commit at a time.
 
-Half hourly meter readings arrive on a queue. Some arrive twice, some arrive late and some arrive out of order. Each reading is priced by a tariff and lands as a charge on a customer ledger. The ledger is append only. Nothing is ever edited or deleted, and the balance is always derived from the entries, never stored.
+Customers buy credit in advance, usually with mobile money, and their consumption draws it down. Meter readings and payment callbacks arrive on a queue, some twice, some late, some out of order. Each reading is priced by supply band and charged to an append only ledger whose balance is always derived from its entries. Money is kept in whole kobo and never rounded against the customer. At the edge, a read only agent answers "why did my units run out?" from whatever data exists, and says how sure it is.
 
-There is no database, no HTTP server and no Docker. Everything runs in memory. Tests use Nullables (James Shore's Testing Without Mocks) in place of mocks.
+This is a kata for learning and teaching, not a product. There is no database, no HTTP server and no Docker; everything runs in memory. Tests use Nullables (James Shore's Testing Without Mocks) in place of mocks.
+
+- [Decisions](docs/decisions.md) and [ADRs](docs/adr/): every design choice, before the code that follows it
+- [Glossary](docs/glossary.md): every term, in plain words
+- [Curriculum](docs/curriculum.md): the course this history teaches
 
 ## Running it
 

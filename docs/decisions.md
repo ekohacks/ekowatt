@@ -58,22 +58,32 @@ Cost: a source on every reading, estimation rules in the core, and an explanatio
 
 ## 8. The harness decides what the agent may say
 
-20 November 2026. Proposed, not yet agreed.
+20 November 2026. Agreed.
 
 Everything around the model is engineered and tested like the rest of the core: which tools it gets, what evidence each tool returns with its source, the confidence label, the rule that every number in an answer must come from a tool result, the refusal when evidence is too thin, and a set of recorded questions with expected answers run against the nulled `LlmClient`. The model writes the sentence; the harness decides what is true.
 
+## 9. A public teaching kata, a private product
+
+20 November 2026. Agreed.
+
+ekowatt stays public under the MIT licence: the core, the method, the decisions, the glossary and the curriculum. It is how EkoHacks shows the way it builds and how students learn. A company product, under its own name, lives in a separate private repository that builds on it: integrations with real vending, token and mobile money providers, tariff tables and estimation rules per operator, multi tenant setup, security and audit, and an agent tuned on pilot data.
+
+Rules: no partner names, real tariffs, customer data or pilot results in this repository. Anything learned in a pilot comes back here only in a general form.
+
+Cost: the core is open for anyone to copy. What cannot be copied is the partnerships, the engineers trained on the ground and the data from real pilots.
+
 ## The plan
 
-| Step | What                                                                                                                            | Decision |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| 1    | Readings kept by meter and half hour, once                                                                                      | 1, 2     |
-| 2    | Late corrections: the higher revision wins in any arrival order                                                                 | 2        |
-| 3    | `ReadingQueue` wrapper: Nullable, Configurable Responses, `trackAcks()`, then `simulateRedelivery()` and `simulateOutOfOrder()` | 2, 3     |
-| 4    | `Clock` wrapper                                                                                                                 | 2        |
-| 5    | Tariffs: flat, then supply band                                                                                                 | 3, 6     |
-| 6    | Prepaid ledger: top ups, consumption, one token per top up, derived balance                                                     | 3, 6     |
-| 7    | `MeterToCash` application as a Logic Sandwich                                                                                   | 2        |
-| 8    | Read only queries: balance, entries, explain a charge                                                                           | 4        |
-| 9    | `LlmClient` wrapper with a Nullable                                                                                             | 4        |
-| 10   | The "why did my units run out?" agent                                                                                           | 4        |
-| 11   | MCP server over stdio                                                                                                           | 4        |
+| Step | What                                                                                                                                            | Decision |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| 1    | Readings kept by meter and half hour, once                                                                                                      | 1, 2     |
+| 2    | Late corrections: the higher revision wins in any arrival order                                                                                 | 2        |
+| 3    | `ReadingQueue` wrapper: Nullable, Configurable Responses, `trackAcks()`, then `simulateRedelivery()` and `simulateOutOfOrder()`                 | 2, 3     |
+| 4    | `Clock` wrapper                                                                                                                                 | 2        |
+| 5    | Tariffs: flat, then supply band                                                                                                                 | 3, 6     |
+| 6    | Prepaid ledger: top ups, consumption, one token per top up, derived balance                                                                     | 3, 6     |
+| 7    | `MeterToCash` application as a Logic Sandwich                                                                                                   | 2        |
+| 8    | Read only queries: balance, entries, explain a charge                                                                                           | 4        |
+| 9    | `LlmClient` wrapper with a Nullable                                                                                                             | 4        |
+| 10   | The "why did my units run out?" agent and its harness: evidence with sources, confidence, every number from a tool, refusal, recorded questions | 4        |
+| 11   | MCP server over stdio                                                                                                                           | 4        |

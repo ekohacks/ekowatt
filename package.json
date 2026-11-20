@@ -2,7 +2,8 @@
   "name": "ekowatt",
   "version": "0.0.0",
   "private": true,
-  "description": "A small in memory meter to cash kata, built test first with Nullables.",
+  "description": "Prepaid electricity from meter reading to money: a teaching kata built test first with Nullables.",
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=24"
