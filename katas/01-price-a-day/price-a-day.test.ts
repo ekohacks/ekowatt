@@ -39,6 +39,14 @@ describe('priceReadings', () => {
     expect(priceReadings(readings, tariff)).toBe(10000);
   });
 
+  it('counts two days a week apart as two days', () => {
+    const readings = [
+      { start: '2026-11-23T12:00:00Z', wh: 0 },
+      { start: '2026-11-30T12:00:00Z', wh: 0 },
+    ];
+    expect(priceReadings(readings, tariff)).toBe(10000);
+  });
+
   it('adds the daily charge for each day with readings', () => {
     const readings = [
       { start: '2026-11-23T12:00:00Z', wh: 0 },
