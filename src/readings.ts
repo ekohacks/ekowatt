@@ -9,15 +9,28 @@ export class MeterReadings {
     return new MeterReadings();
   }
 
-  record(_reading: Reading): MeterReadings {
-    return MeterReadings.empty();
+  private readonly readings: ReadonlyMap<string, Reading>;
+
+  private constructor(readings: ReadonlyMap<string, Reading> = new Map()) {
+    this.readings = readings;
   }
 
-  get(_meterId: string, _intervalStart: string): Reading | undefined {
-    return undefined;
+  record(reading: Reading): MeterReadings {
+    const copy = new Map(this.readings);
+    copy.set(this.keyOf(reading.meterId, reading.intervalStart), reading);
+    return new MeterReadings(copy);
+  }
+
+  get(meterId: string, intervalStart: string): Reading | undefined {
+    return this.readings.get(this.keyOf(meterId, intervalStart));
   }
 
   all(): readonly Reading[] {
-    return [];
+    return [...this.readings.values()];
+  }
+
+  // `|` appears in neither a meter id nor an ISO date; `-` appears in both.
+  private keyOf(meterId: string, intervalStart: string): string {
+    return `${meterId}|${intervalStart}`;
   }
 }
