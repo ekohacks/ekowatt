@@ -20,3 +20,4 @@ The code follows James Shore's Testing Without Mocks pattern language. Use the p
 - **Tests.** Narrow, State-Based, Overlapping Sociable Tests: application tests run real logic over nulled infrastructure. Logic tests are plain input and output (Easily-Visible Behaviour). Each wrapper gets a Narrow Integration Test against `create()`.
 - **Parameterless Instantiation and Signature Shielding.** `createNull()` works with no arguments; test helpers take optional named options.
 - **Grow Evolutionary Seeds.** No structure up front; a folder appears when a test needs it.
+- **Property based tests (our extension, decision 12).** Laws (order, duplicates, the money guarantee) are tested with fast-check on logic, and on the application through Nullables with generated Configurable Responses, asserting through Output Tracking. Keep a few examples beside each property. No properties against real infrastructure. All randomness comes from the fast-check seed.

@@ -78,3 +78,13 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **Output Tracking.** Recording what a wrapper sent, so tests check outcomes rather than calls.
 - **Sociable test.** A test that runs real collaborators together instead of replacing them.
 - **Narrow Integration Test.** One test of one wrapper against the real outside world.
+
+## Property based testing
+
+- **Example test.** A test that picks one input and checks one answer.
+- **Property.** A statement that must hold for every input, such as "the order of arrival does not change the result".
+- **Property based test.** A test where a library generates many inputs and checks a property against each one.
+- **Arbitrary.** fast-check's name for a generator of inputs, such as readings, numbers or shuffles.
+- **Shrinking.** When a property fails, trying smaller inputs until the smallest one that still fails is found.
+- **Seed.** The number that fixes a run's random choices, so a failure can be replayed exactly.
+- **Associative, commutative, idempotent.** Grouping, order and repeats do not change the result. An operation with all three is a **semilattice**. See `docs/deep-dives/order-should-not-matter.md`.
