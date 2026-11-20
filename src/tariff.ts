@@ -11,9 +11,25 @@ export interface Charge {
 }
 
 export function chargeReadings(
-  _whs: readonly number[],
-  _koboPerKWh: number,
-  _carriedIn = 0,
+  whs: readonly number[],
+  koboPerKWh: number,
+  carriedIn = 0,
 ): Charge[] {
-  return [];
+  if (!Number.isInteger(koboPerKWh)) {
+    throw new RangeError('price must be whole kobo per kWh');
+  }
+  // The remainder outlives each reading: what one charge leaves behind starts the next.
+  let carried = carriedIn;
+  return whs.map((wh) => {
+    if (!Number.isInteger(wh)) {
+      throw new RangeError('energy must be whole watt hours');
+    }
+    const thousandthsOfKobo = wh * koboPerKWh + carried;
+    carried = thousandthsOfKobo % WATT_HOURS_PER_KWH;
+    return {
+      wh,
+      kobo: Math.floor(thousandthsOfKobo / WATT_HOURS_PER_KWH),
+      carriedRemainder: carried,
+    };
+  });
 }
