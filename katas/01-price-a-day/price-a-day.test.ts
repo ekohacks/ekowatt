@@ -9,7 +9,9 @@ describe('priceReadings', () => {
   });
 
   it('prices a day reading and adds the daily charge once', () => {
-    expect(priceReadings([{ start: '2026-11-23T12:00:00Z', wh: 1000 }], tariff)).toBe(20950 + 5000);
+    // 370 Wh, not 1000: at exactly 1 kWh a charge per kWh and a charge per day give the same number.
+    // 370 x 20950 = 7,751,500 thousandths of a kobo, so 7,751 kobo.
+    expect(priceReadings([{ start: '2026-11-23T12:00:00Z', wh: 370 }], tariff)).toBe(7751 + 5000);
   });
 
   it('uses the night price before 06:00 and the day price from 06:00', () => {
@@ -27,6 +29,14 @@ describe('priceReadings', () => {
     ];
     // 370 x 20950 = 7,751,500 thousandths each; two make 15,503,000, so 15,503 kobo.
     expect(priceReadings(readings, tariff)).toBe(15503 + 5000);
+  });
+
+  it('counts the same day of different months as different days', () => {
+    const readings = [
+      { start: '2026-11-23T12:00:00Z', wh: 0 },
+      { start: '2026-12-23T12:00:00Z', wh: 0 },
+    ];
+    expect(priceReadings(readings, tariff)).toBe(10000);
   });
 
   it('adds the daily charge for each day with readings', () => {
