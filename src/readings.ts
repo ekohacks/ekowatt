@@ -1,7 +1,7 @@
 export interface Reading {
   readonly meterId: string;
   readonly intervalStart: string;
-  readonly kWh: number;
+  readonly wh: number;
 }
 
 export class MeterReadings {

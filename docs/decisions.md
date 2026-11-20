@@ -83,6 +83,14 @@ Cost: the core is open for anyone to copy. What cannot be copied is the partners
 
 Cost: a little more code than a library call, and a time zone carried on every tariff. The `Clock` wrapper and the tariff step follow this.
 
+## 11. Kata answers on their own branches
+
+20 November 2026. Agreed.
+
+`main` keeps every kata's `starter.ts` empty, so each learner starts from the same place. A learner who wants to share answers pushes them to a branch of their own, `solutions/<name>`, one commit per kata, and that branch never merges into `main`. The reference answers used to check the katas stay private.
+
+Cost: answers are one branch switch away, so the katas README asks learners to try each kata first.
+
 ## The plan
 
 | Step | What                                                                                                                                            | Decision |
