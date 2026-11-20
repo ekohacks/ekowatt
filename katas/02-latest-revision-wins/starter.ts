@@ -9,6 +9,17 @@ export interface Reading {
   readonly revision: number;
 }
 
-export function latestReadings(_arrived: readonly Reading[]): Reading[] {
-  throw new Error('not done yet');
+export function latestReadings(arrived: readonly Reading[]): Reading[] {
+  const held = new Map<string, Reading>();
+  for (const r of arrived) {
+    const key = `${r.meterId}-${r.start}`;
+    const existing = held.get(key);
+    if (!existing || existing.revision < r.revision) {
+      held.set(key, r);
+    }
+  }
+  return [...held.values()].sort(
+    (a, b) =>
+      a.start.localeCompare(b.start) || a.meterId.localeCompare(b.meterId),
+  );
 }
