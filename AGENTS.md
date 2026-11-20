@@ -5,6 +5,7 @@
 - No mocks, spies or stubbing libraries. Use James Shore's Nullables: https://www.jamesshore.com/v2/projects/nullables/testing-without-mocks. Infrastructure wrappers (the queue, the clock) live in `src/infrastructure/` and expose `create()` and `createNull()`. Assert on state and tracked output, never on call records.
 - Everything stays in memory: no database, no HTTP server, no Docker.
 - Prose is British English.
+- Design decisions go in `docs/decisions.md` (and an ADR in `docs/adr/` when the reasoning matters) before the code that follows them. Every new term goes in `docs/glossary.md` in the same commit that introduces it.
 
 ## The pattern language
 

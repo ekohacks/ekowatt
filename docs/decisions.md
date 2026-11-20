@@ -42,11 +42,25 @@ Cost: two runtime dependencies, `@anthropic-ai/sdk` and `@modelcontextprotocol/s
 
 One small step at a time. Failing tests are committed on their own, then the change that passes them. The owner runs the checks and makes every commit. A helper agent may scaffold, never commit. Each committed step goes into the work journal.
 
-## 6. Money in whole minor units
+## 6. Money in whole minor units, energy in whole watt hours, round down and carry
+
+20 November 2026. Agreed. Full record: [ADR 0006](adr/0006-money-in-minor-units.md).
+
+Money is an integer number of kobo (or cents), energy an integer number of watt hours. Every charge is rounded down and the remainder carried into the next charge, so the charges always add up to the exact cost rounded down once. The customer never pays for energy not used; the supplier gives up less than one kobo per meter, ever.
+
+## 7. The agent explains from whatever data exists, and says how sure it is
+
+20 November 2026. Agreed.
+
+Most prepaid customers do not have meters that send half hourly readings, and many have no meter at all. So every reading carries its source: `measured` (interval data from a smart meter), `daily` (an occasional or daily read) or `estimated` (no meter, or a gap filled by the system). Top ups and token history from vending count as evidence too. The confidence of an explanation is worked out by the core from those sources, not by the model, and the agent states it: "measured", "based on daily reads" or "estimated, because there is no meter reading for these days".
+
+Cost: a source on every reading, estimation rules in the core, and an explanation that can say "I don't know" when the evidence is too thin.
+
+## 8. The harness decides what the agent may say
 
 20 November 2026. Proposed, not yet agreed.
 
-Amounts are integers in the currency's minor unit (kobo, cents), never floats, with rounding done once and named where it happens. Decided before the tariff step.
+Everything around the model is engineered and tested like the rest of the core: which tools it gets, what evidence each tool returns with its source, the confidence label, the rule that every number in an answer must come from a tool result, the refusal when evidence is too thin, and a set of recorded questions with expected answers run against the nulled `LlmClient`. The model writes the sentence; the harness decides what is true.
 
 ## The plan
 
