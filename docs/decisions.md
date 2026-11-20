@@ -91,6 +91,16 @@ Cost: a little more code than a library call, and a time zone carried on every t
 
 Cost: answers are one branch switch away, so the katas README asks learners to try each kata first.
 
+## 12. Property based tests with fast-check, as an extension of Testing Without Mocks
+
+20 November 2026. Agreed.
+
+Properties test laws: arrival order does not change the result, duplicates do not change the result, and the money guarantee of ADR 0006 holds. They run on logic, and on the application through Nullables, with fast-check generating the Configurable Responses and the Behaviour Simulation, and the checks made through Output Tracking. Each property sits next to a few readable examples, so a reader sees what the code does before seeing the law. Narrow Integration Tests against real infrastructure stay example based. All randomness in a test comes from the fast-check seed, never from `Math.random` or the clock, so any failure can be replayed.
+
+This is our extension. James Shore's pattern language does not describe property based testing.
+
+Cost: two dev dependencies, `fast-check` and `@fast-check/vitest`; properties are harder to write than examples, and a wrong property passes as easily as a wrong example; many runs take longer than one.
+
 ## The plan
 
 | Step | What                                                                                                                                            | Decision |
