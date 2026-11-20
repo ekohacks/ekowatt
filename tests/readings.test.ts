@@ -4,7 +4,7 @@ import { MeterReadings, type Reading } from '../src/readings.ts';
 const reading = (overrides: Partial<Reading> = {}): Reading => ({
   meterId: 'meter-1',
   intervalStart: '2026-11-20T00:00:00Z',
-  kWh: 0.42,
+  wh: 420,
   ...overrides,
 });
 
@@ -27,7 +27,7 @@ describe('MeterReadings', () => {
 
   it('keeps readings for different half hours apart', () => {
     const first = reading();
-    const second = reading({ intervalStart: '2026-11-20T00:30:00Z', kWh: 0.38 });
+    const second = reading({ intervalStart: '2026-11-20T00:30:00Z', wh: 380 });
 
     const readings = MeterReadings.empty().record(first).record(second);
 
@@ -36,7 +36,7 @@ describe('MeterReadings', () => {
 
   it('keeps readings for different meters apart', () => {
     const mine = reading();
-    const theirs = reading({ meterId: 'meter-2', kWh: 1.1 });
+    const theirs = reading({ meterId: 'meter-2', wh: 1100 });
 
     const readings = MeterReadings.empty().record(mine).record(theirs);
 
