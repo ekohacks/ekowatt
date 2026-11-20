@@ -32,6 +32,14 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **Carried remainder.** The fraction of a kobo left after rounding a charge down, carried into the next charge so nothing is lost. See ADR 0006.
 - **Tariff.** The price rule: kobo per kWh, by supply band.
 
+## Time
+
+- **UTC.** Coordinated Universal Time, the one clock every timestamp in ekowatt is written in.
+- **ISO 8601.** The standard text form for dates and times, such as `2026-11-23T05:30:00Z`. The `Z` means UTC.
+- **IANA time zone.** A named zone from the standard time zone database, such as `Africa/Lagos` (UTC+1) or `Africa/Nairobi` (UTC+3).
+- **Intl.** The internationalisation API built into JavaScript. `Intl.DateTimeFormat` with a `timeZone` gives the local hour without a library.
+- **Temporal.** The newer JavaScript standard for dates and times. ekowatt will use it once the runtime ships it.
+
 ## The ledger
 
 - **Ledger.** The record of every money movement on an account: top ups in, charges out, credits.

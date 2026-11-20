@@ -72,6 +72,17 @@ Rules: no partner names, real tariffs, customer data or pilot results in this re
 
 Cost: the core is open for anyone to copy. What cannot be copied is the partnerships, the engineers trained on the ground and the data from real pilots.
 
+## 10. Time through standards and native APIs
+
+20 November 2026. Agreed.
+
+- All timestamps in data are ISO 8601 in UTC with an explicit `Z`. The ECMAScript spec reads a date and time without an offset as local time, so the same code would bill differently on a laptop in London and a server in Lagos.
+- Logic reads time with the UTC getters (`getUTCHours`), never the local ones. The server's time zone never changes a bill.
+- A customer's local time (a tariff's night, a supply window) comes only from `Intl.DateTimeFormat` with an IANA time zone such as `Africa/Lagos`.
+- Temporal replaces this once the runtime ships it (Node 24.4 does not). No date libraries in between.
+
+Cost: a little more code than a library call, and a time zone carried on every tariff. The `Clock` wrapper and the tariff step follow this.
+
 ## The plan
 
 | Step | What                                                                                                                                            | Decision |
@@ -79,8 +90,8 @@ Cost: the core is open for anyone to copy. What cannot be copied is the partners
 | 1    | Readings kept by meter and half hour, once                                                                                                      | 1, 2     |
 | 2    | Late corrections: the higher revision wins in any arrival order                                                                                 | 2        |
 | 3    | `ReadingQueue` wrapper: Nullable, Configurable Responses, `trackAcks()`, then `simulateRedelivery()` and `simulateOutOfOrder()`                 | 2, 3     |
-| 4    | `Clock` wrapper                                                                                                                                 | 2        |
-| 5    | Tariffs: flat, then supply band                                                                                                                 | 3, 6     |
+| 4    | `Clock` wrapper (ISO 8601 UTC, local time through `Intl`)                                                                                       | 2, 10    |
+| 5    | Tariffs: flat, then supply band                                                                                                                 | 3, 6, 10 |
 | 6    | Prepaid ledger: top ups, consumption, one token per top up, derived balance                                                                     | 3, 6     |
 | 7    | `MeterToCash` application as a Logic Sandwich                                                                                                   | 2        |
 | 8    | Read only queries: balance, entries, explain a charge                                                                                           | 4        |
