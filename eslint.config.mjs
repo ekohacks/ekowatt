@@ -39,5 +39,25 @@ export default defineConfig(
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },
+  {
+    // Decision 13: A-Frame (decision 2). Logic never imports infrastructure; only the application wires them.
+    // When the application arrives, its step adds its file to `ignores` here.
+    files: ['src/**/*.ts'],
+    ignores: ['src/infrastructure/**'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/infrastructure', '**/infrastructure/**'],
+              message:
+                'Logic never imports infrastructure (A-Frame, decision 2). Take the data as a parameter; the application reads it from the wrapper and passes it in.',
+            },
+          ],
+        },
+      ],
+    },
+  },
   globalIgnores(['node_modules/', 'coverage/', '*.mjs']),
 );

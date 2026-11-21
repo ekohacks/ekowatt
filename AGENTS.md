@@ -11,7 +11,7 @@
 
 The code follows James Shore's Testing Without Mocks pattern language. Use the pattern names in code, reviews and commit messages.
 
-- **A-Frame Architecture.** The application (`MeterToCash`) sits on top of two siblings: logic (which reading counts for a meter and half hour, tariff pricing, the ledger balance) and infrastructure (the reading queue, the clock). Logic never imports infrastructure; the application wires them.
+- **A-Frame Architecture.** The application (`MeterToCash`) sits on top of two siblings: logic (which reading counts for a meter and half hour, tariff pricing, the ledger balance) and infrastructure (the reading queue, the clock). The application wires them.
 - **Logic Sandwich.** The application reads from infrastructure, hands the data to logic, then writes the results back out.
 - **Infrastructure Wrappers.** `ReadingQueue` and `Clock` are the only code that touches the outside world.
 - **Nullables.** Each wrapper has `create()` and `createNull()`. The Embedded Stub lives inside the wrapper, not in test files. `createNull()` takes Configurable Responses in the wrapper's own terms, for example `{ messages: [...] }` or `{ now: '2026-11-23T14:00Z' }`.
