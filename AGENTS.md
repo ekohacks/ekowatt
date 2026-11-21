@@ -1,23 +1,12 @@
 # Agent notes
 
-- Work here follows the pair-steps way of working. Make one small step, then stop. The owner runs the tests and makes the commit before the next step starts.
+Only what the code, the tools and the docs cannot tell you. A rule a tool can check is a lint rule instead (decision 13).
+
+- Work in pair steps: make one small step, then stop. The owner runs `npm run check` and makes the commit before the next step starts.
 - Test first: a failing test, then the change that makes it pass, then any refactor, each its own step.
-- Use James Shore's Nullables: https://www.jamesshore.com/v2/projects/nullables/testing-without-mocks. Infrastructure wrappers (the queue, the clock) live in `src/infrastructure/` and expose `create()` and `createNull()`. Assert on state and tracked output, never on call records.
-- Everything stays in memory: no database, no HTTP server, no Docker.
+- Read `docs/decisions.md` before any change to the design. A new decision is written there (and an ADR in `docs/adr/` when the reasoning matters) before the code that follows it. Every new term goes in `docs/glossary.md` in the same commit that introduces it.
+- Tests use James Shore's Testing Without Mocks pattern language (decision 2): https://www.jamesshore.com/v2/projects/nullables/testing-without-mocks. Use its pattern names, listed in the glossary, in code, reviews and commit messages. Assert on state and tracked output, never on calls.
+- Grow Evolutionary Seeds: no structure up front. A folder, a wrapper or a name appears when a test needs it, not before.
+- Laws (order, duplicates, the money guarantee) are fast-check properties with a few readable examples beside each (decision 12). All randomness comes from the fast-check seed.
+- Never commit a filled in kata `starter.ts` (decision 11).
 - Prose is British English.
-- Design decisions go in `docs/decisions.md` (and an ADR in `docs/adr/` when the reasoning matters) before the code that follows them. Every new term goes in `docs/glossary.md` in the same commit that introduces it.
-
-## The pattern language
-
-The code follows James Shore's Testing Without Mocks pattern language. Use the pattern names in code, reviews and commit messages.
-
-- **A-Frame Architecture.** The application (`MeterToCash`) sits on top of two siblings: logic (which reading counts for a meter and half hour, tariff pricing, the ledger balance) and infrastructure (the reading queue, the clock). The application wires them.
-- **Logic Sandwich.** The application reads from infrastructure, hands the data to logic, then writes the results back out.
-- **Infrastructure Wrappers.** `ReadingQueue` and `Clock` are the only code that touches the outside world.
-- **Nullables.** Each wrapper has `create()` and `createNull()`. The Embedded Stub lives inside the wrapper, not in test files. `createNull()` takes Configurable Responses in the wrapper's own terms, for example `{ messages: [...] }` or `{ now: '2026-11-23T14:00Z' }`.
-- **Behaviour Simulation.** Nulled wrappers can be told to misbehave as the real thing would, for example `simulateRedelivery()` or `simulateOutOfOrder()`.
-- **Output Tracking.** Wrappers expose `trackX()`, for example `trackAcks()`. Tests assert on what was sent, never on calls.
-- **Tests.** Narrow, State-Based, Overlapping Sociable Tests: application tests run real logic over nulled infrastructure. Logic tests are plain input and output (Easily-Visible Behaviour). Each wrapper gets a Narrow Integration Test against `create()`.
-- **Parameterless Instantiation and Signature Shielding.** `createNull()` works with no arguments; test helpers take optional named options.
-- **Grow Evolutionary Seeds.** No structure up front; a folder appears when a test needs it.
-- **Property based tests (our extension, decision 12).** Laws (order, duplicates, the money guarantee) are tested with fast-check on logic, and on the application through Nullables with generated Configurable Responses, asserting through Output Tracking. Keep a few examples beside each property. No properties against real infrastructure. All randomness comes from the fast-check seed.

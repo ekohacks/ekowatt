@@ -78,6 +78,12 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **Output Tracking.** Recording what a wrapper sent, so tests check outcomes rather than calls.
 - **Sociable test.** A test that runs real collaborators together instead of replacing them.
 - **Narrow Integration Test.** One test of one wrapper against the real outside world.
+- **State-Based Test.** A test that checks what a piece of code returned or left behind, not which functions it called.
+- **Overlapping Sociable Tests.** Each test runs real collaborators, so between them the tests cover every layer, with no gaps for a mock to hide.
+- **Easily-Visible Behaviour.** Logic written so its result is a plain return value, easy to test with input and output alone.
+- **Parameterless Instantiation.** `createNull()` works with no arguments, so a test sets up only what it cares about.
+- **Signature Shielding.** Test helpers take optional named options, so a new parameter does not break every test.
+- **Grow Evolutionary Seeds.** No structure up front: a folder, a wrapper or a name appears when a test needs it.
 
 ## Property based testing
 
