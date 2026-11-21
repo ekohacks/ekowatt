@@ -25,6 +25,7 @@ Other scripts:
 - `npm run typecheck` checks the types
 - `npm run lint` runs ESLint
 - `npm run format` formats the code with Prettier
+- `npm run check` runs lint, the type check and the tests in that order, and stops at the first failure: the one gate before every commit
 
 ## Layout
 
