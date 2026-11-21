@@ -26,6 +26,16 @@ export default defineConfig(
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
       curly: ['error', 'all'],
+      // Decision 13: the no mocks rule (decision 2) is checked here, not only stated in AGENTS.md.
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            "MemberExpression[object.name='vi'][property.name=/^(mock|doMock|fn|spyOn|stubGlobal)$/]",
+          message:
+            "No mocks, spies or stubs (decision 2). Use a Nullable: the wrapper's createNull() with Configurable Responses, and check its Output Tracking.",
+        },
+      ],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },
