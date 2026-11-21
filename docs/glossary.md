@@ -88,3 +88,9 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **Shrinking.** When a property fails, trying smaller inputs until the smallest one that still fails is found.
 - **Seed.** The number that fixes a run's random choices, so a failure can be replayed exactly.
 - **Associative, commutative, idempotent.** Grouping, order and repeats do not change the result. An operation with all three is a **semilattice**. See `docs/deep-dives/order-should-not-matter.md`.
+
+## Working with agents
+
+- **Agent file.** Instructions a coding agent reads at the start of every session. Claude Code reads `CLAUDE.md`; other agents read `AGENTS.md`. ekowatt keeps its rules in `AGENTS.md` and `CLAUDE.md` imports it.
+- **Import (`@path`).** A line in `CLAUDE.md` such as `@AGENTS.md` that pulls another file's text in as if it were written there.
+- **Lint rule.** A check ESLint runs on the code. A rule the agent file used to state in prose becomes one, so breaking it fails `npm run lint`.
