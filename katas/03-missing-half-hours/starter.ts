@@ -7,6 +7,16 @@ export interface Reading {
   readonly wh: number;
 }
 
-export function missingHalfHours(_day: string, _readings: readonly Reading[]): string[] {
-  throw new Error('not done yet');
+export function missingHalfHours(day: string, readings: readonly Reading[]): string[] {
+  const present = new Set(readings.map(reading => new Date(reading.start).toISOString()));
+  const midnight = Date.parse(day + 'T00:00:00Z');
+  const missing: string[] = [];
+  for (let i = 0; i < 48; i++) {
+    const slot = new Date(midnight + i * 1_800_000);
+    if (!present.has(slot.toISOString())) {
+      missing.push(slot.toISOString());
+    }
+  }
+  return missing
+
 }
