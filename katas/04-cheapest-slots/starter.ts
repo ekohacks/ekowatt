@@ -7,6 +7,16 @@ export interface Price {
   readonly kobo: number;
 }
 
-export function cheapestSlots(_prices: readonly Price[], _slotsNeeded: number): string[] {
-  throw new Error('not done yet');
+export function cheapestSlots(prices: readonly Price[], slotsNeeded: number): string[] {
+  const pricesLength = prices.length;
+  if (pricesLength < slotsNeeded) {
+    throw new Error('not enough time');
+  }
+  return [...prices]
+    .sort((a, b) => {
+      return a.kobo - b.kobo || a.start.localeCompare(b.start);
+    })
+    .slice(0, slotsNeeded)
+    .map((p) => p.start)
+    .sort((a, b) => a.localeCompare(b));
 }
