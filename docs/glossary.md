@@ -95,6 +95,15 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **Seed.** The number that fixes a run's random choices, so a failure can be replayed exactly.
 - **Associative, commutative, idempotent.** Grouping, order and repeats do not change the result. An operation with all three is a **semilattice**. See `docs/deep-dives/order-should-not-matter.md`.
 
+## Algorithms and cost
+
+- **Big O notation.** How the work or memory of an algorithm grows as its input grows, ignoring constant factors. O(n) grows in step with the input; O(n log n) a little faster; O(n²) with its square; O(1) not at all.
+- **Time and space complexity.** The Big O of the work done and of the memory held. The katas README gives both for each kata.
+- **Greedy algorithm.** One that takes the best choice at each step and never goes back, such as taking the cheapest slots first.
+- **Merge intervals.** Sort ranges by start, then sweep once, extending the current range or starting a new one.
+- **Fold.** Walking a list once and carrying one running value, such as a total, from item to item.
+- **Sliding window, knapsack.** Two harder optimisation shapes: the best unbroken run of slots, and the best choice of items under a limit when each has its own weight and value.
+
 ## Working with agents
 
 - **Agent file.** Instructions a coding agent reads at the start of every session. Other agents read `AGENTS.md`. Claude Code reads `CLAUDE.md`, and reads `AGENTS.md` only when no `CLAUDE.md` sits in the folder it starts in or any folder above. ekowatt keeps its rules in `AGENTS.md` and its `CLAUDE.md` imports it, so the rules load whatever sits above the repo. `/context all` lists the files a session loaded.
