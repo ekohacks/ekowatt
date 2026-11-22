@@ -39,6 +39,8 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **IANA time zone.** A named zone from the standard time zone database, such as `Africa/Lagos` (UTC+1) or `Africa/Nairobi` (UTC+3).
 - **Intl.** The internationalisation API built into JavaScript. `Intl.DateTimeFormat` with a `timeZone` gives the local hour without a library.
 - **Temporal.** The newer JavaScript standard for dates and times. ekowatt will use it once the runtime ships it.
+- **UTC offset.** How far a local clock is from UTC, such as +01:00 for Lagos. A timestamp written without one is read as the machine's local time.
+- **Daylight saving time.** Moving the clocks forward in summer and back in autumn, as in London. It makes one local day 46 half hours long and another 50. Lagos and Nairobi do not use it.
 
 ## The ledger
 
@@ -78,6 +80,12 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **Output Tracking.** Recording what a wrapper sent, so tests check outcomes rather than calls.
 - **Sociable test.** A test that runs real collaborators together instead of replacing them.
 - **Narrow Integration Test.** One test of one wrapper against the real outside world.
+- **State-Based Test.** A test that checks what a piece of code returned or left behind, not which functions it called.
+- **Overlapping Sociable Tests.** Each test runs real collaborators, so between them the tests cover every layer, with no gaps for a mock to hide.
+- **Easily-Visible Behaviour.** Logic written so its result is a plain return value, easy to test with input and output alone.
+- **Parameterless Instantiation.** `createNull()` works with no arguments, so a test sets up only what it cares about.
+- **Signature Shielding.** Test helpers take optional named options, so a new parameter does not break every test.
+- **Grow Evolutionary Seeds.** No structure up front: a folder, a wrapper or a name appears when a test needs it.
 
 ## Property based testing
 
@@ -88,3 +96,18 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **Shrinking.** When a property fails, trying smaller inputs until the smallest one that still fails is found.
 - **Seed.** The number that fixes a run's random choices, so a failure can be replayed exactly.
 - **Associative, commutative, idempotent.** Grouping, order and repeats do not change the result. An operation with all three is a **semilattice**. See `docs/deep-dives/order-should-not-matter.md`.
+
+## Algorithms and cost
+
+- **Big O notation.** How the work or memory of an algorithm grows as its input grows, ignoring constant factors. O(n) grows in step with the input; O(n log n) a little faster; O(n²) with its square; O(1) not at all.
+- **Time and space complexity.** The Big O of the work done and of the memory held. The katas README gives both for each kata.
+- **Greedy algorithm.** One that takes the best choice at each step and never goes back, such as taking the cheapest slots first.
+- **Merge intervals.** Sort ranges by start, then sweep once, extending the current range or starting a new one.
+- **Fold.** Walking a list once and carrying one running value, such as a total, from item to item.
+- **Sliding window, knapsack.** Two harder optimisation shapes: the best unbroken run of slots, and the best choice of items under a limit when each has its own weight and value.
+
+## Working with agents
+
+- **Agent file.** Instructions a coding agent reads at the start of every session. Other agents read `AGENTS.md`. Claude Code reads `CLAUDE.md`, and reads `AGENTS.md` only when no `CLAUDE.md` sits in the folder it starts in or any folder above. ekowatt keeps its rules in `AGENTS.md` and its `CLAUDE.md` imports it, so the rules load whatever sits above the repo. `/context all` lists the files a session loaded.
+- **Import (`@path`).** A line in `CLAUDE.md` such as `@AGENTS.md` that pulls another file's text in as if it were written there.
+- **Lint rule.** A check ESLint runs on the code. A rule the agent file used to state in prose becomes one, so breaking it fails `npm run lint`.

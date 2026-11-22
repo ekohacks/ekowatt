@@ -15,6 +15,16 @@ describe('createAccounts', () => {
     expect(accounts.balance('a1')).toBe(100000);
   });
 
+  it('credits a second payment to the same account', () => {
+    // Same account, same amount, different payment: only the payment id says it is new. An
+    // answer that remembers accounts or amounts instead would refuse it and lose the money.
+    const accounts = createAccounts();
+    accounts.apply({ paymentId: 'p1', account: 'a1', kobo: 100000 });
+
+    expect(accounts.apply({ paymentId: 'p3', account: 'a1', kobo: 100000 })).toBe(true);
+    expect(accounts.balance('a1')).toBe(200000);
+  });
+
   it('keeps accounts apart', () => {
     const accounts = createAccounts();
     accounts.apply({ paymentId: 'p1', account: 'a1', kobo: 100 });

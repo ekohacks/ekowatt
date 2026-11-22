@@ -83,6 +83,8 @@ Cost: the core is open for anyone to copy. What cannot be copied is the partners
 
 Cost: a little more code than a library call, and a time zone carried on every tariff. The `Clock` wrapper and the tariff step follow this.
 
+Full record, with the general reasons and ekowatt's own: [ADR 0007](adr/0007-time-in-utc.md), added 22 November 2026.
+
 ## 11. Kata answers on their own branches
 
 20 November 2026. Agreed.
@@ -100,6 +102,16 @@ Properties test laws: arrival order does not change the result, duplicates do no
 This is our extension. James Shore's pattern language does not describe property based testing.
 
 Cost: two dev dependencies, `fast-check` and `@fast-check/vitest`; properties are harder to write than examples, and a wrong property passes as easily as a wrong example; many runs take longer than one.
+
+## 13. Rules a tool can check are lint rules, not lines in the agent file
+
+21 November 2026. Agreed.
+
+A rule ESLint can check (no mocks, logic never imports infrastructure, no `Math.random` or clock in tests, no local time getters) is enforced as a lint rule, with an error message that gives the reason. Once it is, its line leaves `AGENTS.md`. The agent file keeps only what no tool can check: the way of working, British English, decisions before code, and where to look.
+
+Why: every line in the agent file is read in every session and competes with the task, and an agent can still ignore it. A lint rule fails the check instead, for the agent, a learner or anyone else. This follows Addy Osmani's "Stop Using /init for AGENTS.md" (23 February 2026): fix the code, then delete the line.
+
+Cost: more ESLint configuration (`no-restricted-syntax`, `no-restricted-imports`), and error messages written to teach, since a learner may meet the rule before reading why.
 
 ## The plan
 
