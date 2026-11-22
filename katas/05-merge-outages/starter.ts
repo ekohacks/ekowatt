@@ -4,6 +4,22 @@
 
 export type Range = readonly [number, number];
 
-export function mergeOutages(_ranges: readonly Range[]): Range[] {
-  throw new Error('not done yet');
+export function mergeOutages(ranges: readonly Range[]): Range[] {
+  if(ranges.length === 0) {
+    return [];
+  }
+  const sorted = [...ranges].sort((a,b) => a[0] - b[0])
+  let current: [number, number] = [sorted[0][0], sorted[0][1]];
+  const merged = [];
+  for(const range of sorted) {
+    if(range[0] <= current[1]) {
+      current[1] = Math.max(current[1], range[1]);
+    } else {
+      merged.push(current);
+      current = [range[0], range[1]];
+    }
+  }
+
+  merged.push(current);
+  return merged;
 }
