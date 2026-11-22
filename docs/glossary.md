@@ -97,6 +97,6 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 
 ## Working with agents
 
-- **Agent file.** Instructions a coding agent reads at the start of every session. Claude Code reads `CLAUDE.md`; other agents read `AGENTS.md`. ekowatt keeps its rules in `AGENTS.md` and `CLAUDE.md` imports it.
+- **Agent file.** Instructions a coding agent reads at the start of every session. Other agents read `AGENTS.md`. Claude Code reads `CLAUDE.md`, and reads `AGENTS.md` only when no `CLAUDE.md` sits in the folder it starts in or any folder above. ekowatt keeps its rules in `AGENTS.md` and its `CLAUDE.md` imports it, so the rules load whatever sits above the repo. `/context all` lists the files a session loaded.
 - **Import (`@path`).** A line in `CLAUDE.md` such as `@AGENTS.md` that pulls another file's text in as if it were written there.
 - **Lint rule.** A check ESLint runs on the code. A rule the agent file used to state in prose becomes one, so breaking it fails `npm run lint`.
