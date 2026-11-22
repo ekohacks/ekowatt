@@ -18,8 +18,15 @@ export class MeterReadings {
   }
 
   record(reading: Reading): MeterReadings {
+    const key = this.keyOf(reading.meterId, reading.intervalStart);
+    const kept = this.readings.get(key);
+    // Keep the max per key: a reading counts only if no higher or equal revision is already kept,
+    // so a late original or a repeat changes nothing, in whatever order they arrive.
+    if (kept !== undefined && kept.revision >= reading.revision) {
+      return this;
+    }
     const copy = new Map(this.readings);
-    copy.set(this.keyOf(reading.meterId, reading.intervalStart), reading);
+    copy.set(key, reading);
     return new MeterReadings(copy);
   }
 
