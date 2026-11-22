@@ -83,6 +83,8 @@ Cost: the core is open for anyone to copy. What cannot be copied is the partners
 
 Cost: a little more code than a library call, and a time zone carried on every tariff. The `Clock` wrapper and the tariff step follow this.
 
+Full record, with the general reasons and ekowatt's own: [ADR 0007](adr/0007-time-in-utc.md), added 22 November 2026.
+
 ## 11. Kata answers on their own branches
 
 20 November 2026. Agreed.

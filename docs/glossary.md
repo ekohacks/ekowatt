@@ -39,6 +39,8 @@ Every term the code, the tests and the docs use, in plain words. A step that int
 - **IANA time zone.** A named zone from the standard time zone database, such as `Africa/Lagos` (UTC+1) or `Africa/Nairobi` (UTC+3).
 - **Intl.** The internationalisation API built into JavaScript. `Intl.DateTimeFormat` with a `timeZone` gives the local hour without a library.
 - **Temporal.** The newer JavaScript standard for dates and times. ekowatt will use it once the runtime ships it.
+- **UTC offset.** How far a local clock is from UTC, such as +01:00 for Lagos. A timestamp written without one is read as the machine's local time.
+- **Daylight saving time.** Moving the clocks forward in summer and back in autumn, as in London. It makes one local day 46 half hours long and another 50. Lagos and Nairobi do not use it.
 
 ## The ledger
 
