@@ -9,7 +9,13 @@ const eslint = new ESLint({
     languageOptions: {
       parserOptions: {
         projectService: {
-          allowDefaultProject: ['src/*.ts', 'tests/*.ts', 'tests/infrastructure/*.ts'],
+          allowDefaultProject: [
+            'src/*.ts',
+            'src/infrastructure/*.ts',
+            'tests/*.ts',
+            'tests/infrastructure/*.ts',
+            'katas/*/*.ts',
+          ],
         },
       },
     },
@@ -69,5 +75,48 @@ describe('A-Frame: logic never imports infrastructure (decision 2)', () => {
     );
 
     expect(messages.map((m) => m.ruleId)).not.toContain('no-restricted-imports');
+  });
+});
+
+describe('tests take time and randomness from their inputs (decisions 10 and 12)', () => {
+  const restricted = (messages: { ruleId: string | null; message: string }[]) =>
+    messages.filter(
+      (m) => m.ruleId === 'no-restricted-syntax' && m.message.includes('decisions 10 and 12'),
+    );
+
+  it('fails a test that reads the clock or Math.random', async () => {
+    const messages = await lint(
+      'tests/clock.test.ts',
+      'export const a = Math.random();\nexport const b = Date.now();\nexport const c = new Date();\n',
+    );
+
+    expect(restricted(messages)).toHaveLength(3);
+  });
+
+  it('fails a kata test that reads the clock', async () => {
+    const messages = await lint(
+      'katas/01-price-a-day/clock.test.ts',
+      'export const now = Date.now();\n',
+    );
+
+    expect(restricted(messages)).toHaveLength(1);
+  });
+
+  it('lets a test build a fixed date', async () => {
+    const messages = await lint(
+      'tests/fixed-date.test.ts',
+      'export const day = new Date(Date.UTC(2026, 10, 23));\n',
+    );
+
+    expect(messages.map((m) => m.ruleId)).not.toContain('no-restricted-syntax');
+  });
+
+  it('lets a wrapper read the clock', async () => {
+    const messages = await lint(
+      'src/infrastructure/clock.ts',
+      'export const now = (): number => Date.now();\n',
+    );
+
+    expect(messages.map((m) => m.ruleId)).not.toContain('no-restricted-syntax');
   });
 });
