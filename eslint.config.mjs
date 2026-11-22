@@ -11,6 +11,13 @@ const noMocks = {
     "No mocks, spies or stubs (decision 2). Use a Nullable: the wrapper's createNull() with Configurable Responses, and check its Output Tracking.",
 };
 
+const localTime = {
+  selector:
+    'CallExpression[callee.property.name=/^((get|set)(FullYear|Month|Date|Day|Hours|Minutes|Seconds|Milliseconds)|getTimezoneOffset|toLocaleDateString|toLocaleTimeString)$/]',
+  message:
+    "Time is read in UTC, never in the machine's local zone (decision 10). Use getUTCHours and the other UTC methods, or Intl.DateTimeFormat with an IANA time zone for a customer's local time.",
+};
+
 const fromInputs =
   'Tests take time and randomness from their inputs (decisions 10 and 12). Use a fixed ISO string or Date.UTC, a nulled Clock, or the fast-check seed.';
 
@@ -38,7 +45,7 @@ export default defineConfig(
       ],
       curly: ['error', 'all'],
       // Decision 13: the no mocks rule (decision 2) is checked here, not only stated in AGENTS.md.
-      'no-restricted-syntax': ['error', noMocks],
+      'no-restricted-syntax': ['error', noMocks, localTime],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },
@@ -70,6 +77,7 @@ export default defineConfig(
       'no-restricted-syntax': [
         'error',
         noMocks,
+        localTime,
         {
           selector: "CallExpression[callee.object.name='Math'][callee.property.name='random']",
           message: fromInputs,
