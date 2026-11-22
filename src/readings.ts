@@ -2,6 +2,8 @@ export interface Reading {
   readonly meterId: string;
   readonly intervalStart: string;
   readonly wh: number;
+  /** A corrected reading for the same meter and half hour carries a higher revision. */
+  readonly revision: number;
 }
 
 export class MeterReadings {

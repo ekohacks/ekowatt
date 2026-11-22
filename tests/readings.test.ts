@@ -5,6 +5,7 @@ const reading = (overrides: Partial<Reading> = {}): Reading => ({
   meterId: 'meter-1',
   intervalStart: '2026-11-20T00:00:00Z',
   wh: 420,
+  revision: 1,
   ...overrides,
 });
 
