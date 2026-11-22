@@ -16,17 +16,15 @@ export interface Tariff {
 }
 
 export function priceReadings(readings: readonly Reading[], tariff: Tariff): number {
-  const WATT_HOURS_PER_KWH = 1000;
-  const days = new Set(readings.map((reading) => reading.start.slice(0, 10)));
-  const result = readings.map((reading) => {
-    const start = new Date(reading.start);
-    const hour = start.getUTCHours();
+  const days = new Set(readings.map((reading) => reading.start.slice(0,10))).size;
+  const readingsMapped = readings.map((reading) => {
+    const date = new Date(reading.start);
+    const hour = date.getUTCHours();
     const isNight = hour < 6;
-    const koboPerKWh = isNight ? tariff.nightKoboPerKWh : tariff.dayKoboPerKWh;
-    return reading.wh * koboPerKWh;
-  });
-  return Math.floor(
-    result.reduce((sum, value) => sum + value, 0) / WATT_HOURS_PER_KWH +
-      days.size * tariff.dailyChargeKobo,
-  );
+    return isNight? reading.wh * tariff.nightKoboPerKWh : reading.wh * tariff.dayKoboPerKWh;
+  })
+  const sum = readingsMapped.reduce((acc, reading) => {
+    return reading + acc;
+  }, 0);
+  return Math.floor(sum/1000 + days * tariff.dailyChargeKobo)
 }
