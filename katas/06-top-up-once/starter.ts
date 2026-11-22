@@ -14,5 +14,22 @@ export interface Accounts {
 }
 
 export function createAccounts(): Accounts {
-  throw new Error('not done yet');
+  const seen = new Set<string>();
+  const balances = new Map<string, number>();
+
+  const apply = (topUp: TopUp): boolean => {
+    if (seen.has(topUp.paymentId)) {
+      return false;
+    }
+    seen.add(topUp.paymentId);
+    balances.set(topUp.account, (balances.get(topUp.account) ?? 0) + topUp.kobo);
+    return true;
+  };
+
+  return {
+    apply,
+    balance(account: string): number {
+      return balances.get(account) ?? 0;
+    },
+  };
 }
