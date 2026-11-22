@@ -21,7 +21,7 @@ Watt hours times kobo per kilowatt hour gives kobo per thousand:
 wh × koboPerKWh  =  thousandths of a kobo
 ```
 
-because a kWh is 1,000 Wh. So 370 Wh at 20950 kobo per kWh is 7,751,500 thousandths, which is 7,751.5 kobo. Keep everything in thousandths, as integers, until the very end. That one choice is what makes "round down once" possible.
+because a kWh is 1,000 Wh. Take one half hour that used 370 Wh, which is 0.37 kWh, priced at 20950 kobo per kWh (₦209.50 per kWh, the Band A style day price used across ekowatt). It costs 370 × 20950 = 7,751,500 thousandths of a kobo, which is 7,751.5 kobo. Keep everything in thousandths, as integers, until the very end. That one choice is what makes "round down once" possible.
 
 ## The formula
 
