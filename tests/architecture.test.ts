@@ -120,3 +120,37 @@ describe('tests take time and randomness from their inputs (decisions 10 and 12)
     expect(messages.map((m) => m.ruleId)).not.toContain('no-restricted-syntax');
   });
 });
+
+describe("time is read in UTC, never in the machine's local zone (decision 10)", () => {
+  const localTime = (messages: { ruleId: string | null; message: string }[]) =>
+    messages.filter(
+      (m) => m.ruleId === 'no-restricted-syntax' && m.message.includes('decision 10'),
+    );
+
+  it('fails logic that reads local time', async () => {
+    const messages = await lint(
+      'src/pricing.ts',
+      'export const hour = (d: Date): number => d.getHours();\nexport const day = (d: Date): number => d.getDate();\n',
+    );
+
+    expect(localTime(messages)).toHaveLength(2);
+  });
+
+  it('fails a test that reads local time', async () => {
+    const messages = await lint(
+      'tests/local-time.test.ts',
+      'export const hour = new Date(Date.UTC(2026, 10, 23)).getHours();\n',
+    );
+
+    expect(localTime(messages)).toHaveLength(1);
+  });
+
+  it('lets code read UTC time', async () => {
+    const messages = await lint(
+      'src/pricing.ts',
+      'export const hour = (d: Date): number => d.getUTCHours();\n',
+    );
+
+    expect(messages.map((m) => m.ruleId)).not.toContain('no-restricted-syntax');
+  });
+});
