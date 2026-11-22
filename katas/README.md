@@ -2,7 +2,7 @@
 
 Seven 15 minute katas from the same domain as ekowatt. Do each one cold: timer on, AI completion off, talking out loud.
 
-1. Open the kata's `starter.ts` and replace the `throw` with your answer.
+1. Open the kata's `starter.ts` and replace the `throw` with your answer. If the kata has a `thinking.md`, read it first, then close it before the timer starts.
 2. Run the katas with `npm run katas` (it reruns as you save).
 3. When the kata's tests pass, stop the timer and note your time.
 4. Reset it for next time with `git checkout katas/<kata>/starter.ts`. Never commit a `starter.ts` you have filled in; the next learner starts from it. Keep your answers on a `solutions/<your name>` branch instead.
