@@ -12,7 +12,7 @@ There are two kinds of reason to care, and they point the same way.
 
 - **The machine's zone is not part of the program.** The same code runs on a laptop in London, a CI runner set to UTC and a server in Lagos. A method such as `getHours()` answers in the machine's zone, so the same input gives three answers. A test that passes on one machine and fails on another is the usual way this is found.
 - **The language reads a missing offset as local.** The ECMAScript spec parses a date and time written without an offset, such as `2026-11-23T05:30`, as local time. A timestamp that looks complete is not.
-- **Local days are not always 48 half hours.** Where clocks change for daylight saving time, as in London, one day a year has 46 half hours and another has 50, and one local half hour happens twice. UTC has neither problem.
+- **Local days are not always 48 half hours.** Where clocks change for daylight saving time, as in London, one day a year has 46 half hours and another has 50, and on that longer day one local hour, two half hours, happens twice. UTC has neither problem.
 - **Order and equality.** ISO 8601 timestamps in UTC with the same layout sort alphabetically in the order they happened (see `docs/deep-dives/order-should-not-matter.md`). Mixed offsets break that.
 
 **Reasons ekowatt has.** These come from prepaid electricity in African markets.
