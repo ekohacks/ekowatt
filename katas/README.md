@@ -1,6 +1,6 @@
 # Katas
 
-Eight 15 minute katas from the same domain as ekowatt. Do each one cold: timer on, AI completion off, talking out loud.
+Nine 15 minute katas from the same domain as ekowatt. Do each one cold: timer on, AI completion off, talking out loud.
 
 1. Open the kata's `starter.ts` and replace the `throw` with your answer. If the kata has a `thinking.md`, read it first, then close it before the timer starts.
 2. Run the katas with `npm run katas` (it reruns as you save).
@@ -17,21 +17,23 @@ Eight 15 minute katas from the same domain as ekowatt. Do each one cold: timer o
 | 06 top up once          | An idempotent mobile money callback                                    |
 | 07 charge when supplied | Cheapest slots before a deadline, only while the feeder supplies power |
 | 08 charge unbroken      | The cheapest run of consecutive half hours, all supplied               |
+| 09 when units ran out   | The half hour a prepaid credit was used up                             |
 
 ## The algorithm behind each kata, and what it costs
 
 Naming the shape before writing a line is half the kata. Each one below is a known algorithm or pattern, and its cost is written in Big O notation: how the work grows as the input grows, ignoring constant factors. Here n is the number of items in, k the number kept or picked, and d the number of days.
 
-| Kata                    | Algorithm or pattern                                          | The work                                                                                            | Time           | Space |
-| ----------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | -------------- | ----- |
-| 01 price a day          | A fold in fixed point arithmetic, plus counting distinct keys | One pass: price each reading in thousandths of a kobo, add its UTC day to a `Set`                   | O(n)           | O(d)  |
-| 02 latest revision wins | Keep the max per key, then sort by a composite key            | One pass into a `Map` keyed by meter and half hour, then sort the k kept readings                   | O(n + k log k) | O(k)  |
-| 03 missing half hours   | Set difference over a generated range                         | Put the reading starts in a `Set`, walk the 48 slots of the day, keep the ones not in it            | O(n)           | O(n)  |
-| 04 cheapest slots       | Greedy selection of the k smallest                            | Sort by price then start, take k, sort those k by start                                             | O(n log n)     | O(n)  |
-| 05 merge outages        | Merge intervals: sort, then sweep                             | Sort by start, then one pass that extends the current range or starts a new one                     | O(n log n)     | O(n)  |
-| 06 top up once          | Idempotent consumer: a seen set in front of the effect        | A `Set` of payment ids seen and a `Map` of balances; each callback is one lookup                    | O(1) per call  | O(p)  |
-| 07 charge when supplied | Filter, then greedy selection of the k smallest, as in 04     | Keep slots before the deadline while supplied, work out k by rounding up, then as 04                | O(n log n)     | O(n)  |
-| 08 charge unbroken      | Sliding window of fixed width                                 | Slide a window of k half hours along the day: add the one that joins, take away the one that leaves | O(n)           | O(1)  |
+| Kata                    | Algorithm or pattern                                          | The work                                                                                                               | Time           | Space |
+| ----------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------- | ----- |
+| 01 price a day          | A fold in fixed point arithmetic, plus counting distinct keys | One pass: price each reading in thousandths of a kobo, add its UTC day to a `Set`                                      | O(n)           | O(d)  |
+| 02 latest revision wins | Keep the max per key, then sort by a composite key            | One pass into a `Map` keyed by meter and half hour, then sort the k kept readings                                      | O(n + k log k) | O(k)  |
+| 03 missing half hours   | Set difference over a generated range                         | Put the reading starts in a `Set`, walk the 48 slots of the day, keep the ones not in it                               | O(n)           | O(n)  |
+| 04 cheapest slots       | Greedy selection of the k smallest                            | Sort by price then start, take k, sort those k by start                                                                | O(n log n)     | O(n)  |
+| 05 merge outages        | Merge intervals: sort, then sweep                             | Sort by start, then one pass that extends the current range or starts a new one                                        | O(n log n)     | O(n)  |
+| 06 top up once          | Idempotent consumer: a seen set in front of the effect        | A `Set` of payment ids seen and a `Map` of balances; each callback is one lookup                                       | O(1) per call  | O(p)  |
+| 07 charge when supplied | Filter, then greedy selection of the k smallest, as in 04     | Keep slots before the deadline while supplied, work out k by rounding up, then as 04                                   | O(n log n)     | O(n)  |
+| 08 charge unbroken      | Sliding window of fixed width                                 | Slide a window of k half hours along the day: add the one that joins, take away the one that leaves                    | O(n)           | O(1)  |
+| 09 when units ran out   | Prefix sum and its first crossing                             | Add the charges in order until the running total reaches the credit; for many questions, binary search the prefix sums | O(n)           | O(1)  |
 
 Notes on reading the table.
 

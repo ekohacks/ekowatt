@@ -28,4 +28,33 @@ describe('planCharge', () => {
       'cannot charge in time',
     );
   });
+
+  // 7,000 W gives 3,500 Wh a slot: 3,500 Wh needs one slot, 7,000 Wh needs two.
+  const at = (time: string) => `2026-11-24T${time}`;
+
+  it('leaves out a slot that starts exactly at the deadline', () => {
+    const slots = [
+      { start: at('06:30'), kobo: 200, supplied: true },
+      { start: at('07:00'), kobo: 50, supplied: true },
+    ];
+    expect(planCharge(slots, 3500, 7000, at('07:00'))).toEqual([at('06:30')]);
+  });
+
+  it('returns time order even when the cheapest slot is the latest', () => {
+    // By price the pick is 03:00 then 02:00; only a sort by start after picking gives time order.
+    const slots = [
+      { start: at('01:00'), kobo: 300, supplied: true },
+      { start: at('02:00'), kobo: 100, supplied: true },
+      { start: at('03:00'), kobo: 50, supplied: true },
+    ];
+    expect(planCharge(slots, 7000, 7000, at('07:00'))).toEqual([at('02:00'), at('03:00')]);
+  });
+
+  it('takes the earlier slot when prices tie', () => {
+    const slots = [
+      { start: at('03:00'), kobo: 100, supplied: true },
+      { start: at('01:00'), kobo: 100, supplied: true },
+    ];
+    expect(planCharge(slots, 3500, 7000, at('07:00'))).toEqual([at('01:00')]);
+  });
 });
