@@ -11,10 +11,24 @@ export interface Slot {
 }
 
 export function planCharge(
-  _slots: readonly Slot[],
-  _whNeeded: number,
-  _chargerW: number,
-  _deadline: string,
+  slots: readonly Slot[],
+  whNeeded: number,
+  chargerW: number,
+  deadline: string,
 ): string[] {
-  throw new Error('not done yet');
+  const perSlot = chargerW / 2;
+  const k = Math.ceil(whNeeded / perSlot);
+  const usables = slots.filter((slot) => {
+    return slot.supplied && slot.start < deadline
+  })
+  const usablesLen = usables.length;
+  if (usablesLen < k) {
+    throw new Error('cannot charge in time')
+  }
+  return usables.sort((a, b) => {
+    return a.kobo - b.kobo || a.start.localeCompare(b.start);
+  })
+    .slice(0, k)
+    .map((p) => p.start)
+    .sort((a, b) => a.localeCompare(b));
 }
