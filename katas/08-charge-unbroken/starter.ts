@@ -10,6 +10,30 @@ export interface Slot {
   readonly supplied: boolean;
 }
 
-export function cheapestRun(_slots: readonly Slot[], _slotsNeeded: number): string[] {
-  throw new Error('not done yet');
+export function cheapestRun(slots: readonly Slot[], slotsNeeded: number): string[] {
+  let total = 0;
+  let off = 0;
+  let bestTotal = Infinity;
+  let bestStart: number | undefined = undefined;
+  const slotLength = slots.length;
+  for (let i = 0; i < slotLength; i++) {
+    total = total + slots[i].kobo;
+    if (!slots[i].supplied) {
+      off = off + 1;
+    }
+    if (i >= slotsNeeded) {
+      total = total - slots[i - slotsNeeded].kobo;
+      if (!slots[i - slotsNeeded].supplied) {
+        off = off - 1;
+      }
+    }
+    if (i >= slotsNeeded - 1 && off === 0 && total < bestTotal) {
+      bestTotal = total;
+      bestStart = i - slotsNeeded + 1;
+    }
+  }
+  if (bestStart === undefined) {
+    throw new Error('no unbroken run');
+  }
+  return slots.slice(bestStart, bestStart + slotsNeeded).map((s) => s.start);
 }
