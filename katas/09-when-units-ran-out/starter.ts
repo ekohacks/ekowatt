@@ -7,6 +7,13 @@ export interface Charge {
   readonly kobo: number;
 }
 
-export function runOutAt(_creditKobo: number, _charges: readonly Charge[]): string | null {
-  throw new Error('not done yet');
+export function runOutAt(creditKobo: number, charges: readonly Charge[]): string | null {
+  let spend = 0;
+  for (const charge of charges) {
+    spend = spend + charge.kobo;
+    if(spend >= creditKobo) {
+      return charge.start;
+    }
+  }
+  return null;
 }
